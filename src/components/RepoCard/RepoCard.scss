@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 8px 16px;
-    // width: 30%;
+    max-width: calc(33.3333333333% - 2rem);
     flex: 1 1 calc((100% / 3) - 2rem);
     height: 218px;
     border: 1px solid black;
@@ -11,13 +11,27 @@
         margin: 0;
         font-weight: 400;
         font-family: Roboto;
+        cursor: default;
+        text-overflow: ellipsis;
+        word-wrap: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100%;
+
     }
 
     &>p {
+        cursor: pointer;
         font-size: 20px;
+        width: fit-content;
+       
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .user {
+        cursor: pointer;
         display: flex;
         flex-direction: row;
         align-items: center;

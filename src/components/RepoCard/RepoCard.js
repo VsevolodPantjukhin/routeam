@@ -2,27 +2,31 @@ import React from 'react';
 import './RepoCard.scss';
 import { Edit, Star, Eye } from 'react-feather';
 
+const RepoCard = ({ id, name, clone_url, stargazers_count, watchers_count, owner, note, ...props }) => {
 
-const RepoCard = ({ ...props }) => {
+    const redirect = (url) => {
+        window.open(url, '_blank');
+    }
+
     return (
         <div className='repo-card'>
-            <p>Название проекта</p>
-            <div className='user'>
-                <img />
-                <p>Автор</p>
+            <p onClick={() => redirect(clone_url)}>{name}</p>
+            <div  className='user'>
+                <img onClick={() => redirect(owner.html_url)} src={owner.avatar_url} />
+                <p>{owner.login}</p>
             </div>
             <div className='stats'>
                 <span>
                     <Star />
-                    <p>123</p>
+                    <p>{stargazers_count}</p>
                 </span>
                 <span>
                     <Eye />
-                    <p>63</p>
+                    <p>{watchers_count}</p>
                 </span>
             </div>
             <div className='edit'>
-                <input />
+                <input value={note} />
                 <button>
                     <Edit color='white' />
                 </button>
