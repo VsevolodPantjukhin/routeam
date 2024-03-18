@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './RepoCard.scss';
 import { Edit, Star, Eye } from 'react-feather';
 
-const RepoCard = ({ id, name, clone_url, stargazers_count, watchers_count, owner, note, ...props }) => {
-
+const RepoCard = ({ id, name, clone_url, stargazers_count, watchers_count, owner, note, saveNote, ...props }) => {
+    const [comment, setComment] = useState(note);
     const redirect = (url) => {
         window.open(url, '_blank');
     }
@@ -11,7 +11,7 @@ const RepoCard = ({ id, name, clone_url, stargazers_count, watchers_count, owner
     return (
         <div className='repo-card'>
             <p onClick={() => redirect(clone_url)}>{name}</p>
-            <div  className='user'>
+            <div className='user'>
                 <img onClick={() => redirect(owner.html_url)} src={owner.avatar_url} />
                 <p>{owner.login}</p>
             </div>
@@ -26,9 +26,9 @@ const RepoCard = ({ id, name, clone_url, stargazers_count, watchers_count, owner
                 </span>
             </div>
             <div className='edit'>
-                <input value={note} />
+                <input value={comment} onChange={e => setComment(e.target.value)} />
                 <button>
-                    <Edit color='white' />
+                    <Edit onClick={() => saveNote(id, comment)} color='white' />
                 </button>
             </div>
         </div>

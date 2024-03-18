@@ -2,6 +2,8 @@
     width: 100%;
     background: #A2A3A4;
     padding: 32px 25px;
+    position: sticky;
+    top: 0;
 
     &-container {
         display: flex;

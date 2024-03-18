@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SearchInput.scss';
 import { Search } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,8 +6,13 @@ import { setQuery } from '../../redux/MainActions';
 
 const SearchInput = ({ ...props }) => {
     const [value, setValue] = useState('');
-    const fetchingRepos = useSelector(state => state.fetchingRepos)
+    const fetchingRepos = useSelector(state => state.fetchingRepos);
+    const query = useSelector(state => state.query);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setValue(query)
+    },[query])
 
     const handleSearch = e => {
         if (fetchingRepos) return;

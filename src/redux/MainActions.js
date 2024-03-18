@@ -5,17 +5,19 @@ import {
     FECTH_REPOS,
     FECTH_REPOS_SUCCESS,
     FECTH_REPOS_FAILED,
-    ENDPOINT_URL
+    ENDPOINT_URL,
+    SET_REPO_BY_ID
 } from './MainConstants';
 import axios from 'axios';
 
-export const fetchRepos = (value, notify) => (dispath, getState) => {
+export const fetchRepos = (value, notify, setSearch) => (dispath, getState) => {
     dispath(beginFetchRepos(value));
     const { page, limit } = getState();
     const q = new URLSearchParams();
     q.append('q', value);
     q.append('page', page);
     q.append('per_page', limit);
+    setSearch({ page, limit, q: value })
     axios.get(`${ENDPOINT_URL}?${q.toString()}`).then((response) => {
         notify("Успех!");
         dispath(successFetchRepos(response.data));
@@ -23,7 +25,6 @@ export const fetchRepos = (value, notify) => (dispath, getState) => {
         notify(e.toString())
         dispath(failedFetchRepos())
     })
-
 }
 
 export const beginFetchRepos = (query) => ({
@@ -48,4 +49,14 @@ export const setPage = (page) => ({
 export const setQuery = (query) => ({
     type: SET_QUERY,
     data: { query }
+});
+
+export const setLimit = (limit) => ({
+    type: SET_LIMIT,
+    data: { limit }
+});
+
+export const setRepoById = (id, page, batch, notify) => ({
+    type: SET_REPO_BY_ID,
+    data: { id, page, batch, notify }
 });

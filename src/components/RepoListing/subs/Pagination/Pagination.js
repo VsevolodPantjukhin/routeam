@@ -1,9 +1,10 @@
-import React from 'react';
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap"
+import React, { useState } from 'react';
+import { Pagination, PaginationItem, PaginationLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap"
 import './Pagination.scss';
 
-const RepoPagination = ({ page, setPage, pageCount, ...props }) => {
-
+const RepoPagination = ({ page, setPage, pageCount, limit, setLimit, ...props }) => {
+    const [limitOpen, setLimitOpen] = useState(false);
+    const options = [6, 12, 18];
     const handleEdges = p => {
         if (p < 1) return 1;
         if (p > pageCount) return pageCount;
@@ -11,12 +12,26 @@ const RepoPagination = ({ page, setPage, pageCount, ...props }) => {
     }
 
     const padPage = p => {
+        if (pageCount < 4) return p;
         if (p + 4 > pageCount) return p - 4;
         return p;
     }
 
     return (
         <div className='repos-pagination'>
+
+            <Dropdown isOpen={limitOpen} toggle={() => setLimitOpen(!limitOpen)}>
+                <DropdownToggle caret>
+                    {limit}
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem header>Лимит</DropdownItem>
+                    {options.map((option, index) =>
+                        <DropdownItem onClick={() => setLimit(option)} key={index} >{option}</DropdownItem>)}
+                </DropdownMenu>
+            </Dropdown>
+
+
             <Pagination>
                 <PaginationItem onClick={() => setPage(1)} disabled={page === 1}>
                     <PaginationLink
